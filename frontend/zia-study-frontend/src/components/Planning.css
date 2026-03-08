@@ -1,0 +1,108 @@
+.planning-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.planning-container h2 {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.planning-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.planning-form input,
+.planning-form select {
+  padding: 10px 14px;
+  border: 1px solid #2a2a3e;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  transition: border 0.3s;
+  flex: 1;
+}
+
+.planning-form input:focus,
+.planning-form select:focus {
+  border-color: #00d4ff;
+}
+
+.planning-form select option {
+  background-color: #1a1a2e;
+}
+
+.planning-form button {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: opacity 0.3s;
+}
+
+.planning-form button:hover {
+  opacity: 0.85;
+}
+
+.planning-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.planning-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #1a1a2e;
+  border-radius: 12px;
+  border: 1px solid #2a2a3e;
+}
+
+.planning-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.planning-cours {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.planning-details {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.supprimer {
+  padding: 8px 16px;
+  background-color: #ff4d4d22;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d44;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.supprimer:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.vide {
+  text-align: center;
+  color: #444;
+}

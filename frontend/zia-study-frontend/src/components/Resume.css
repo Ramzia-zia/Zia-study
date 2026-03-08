@@ -1,0 +1,79 @@
+.resume-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.resume-container h2 {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.resume-container textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #2a2a3e;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  resize: vertical;
+  outline: none;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  transition: border 0.3s;
+}
+
+.resume-container textarea:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 10px #00d4ff22;
+}
+
+.resume-fichier {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resume-fichier label {
+  font-weight: 600;
+  color: #888;
+}
+
+.resume-container button {
+  padding: 13px;
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.resume-container button:hover {
+  opacity: 0.85;
+}
+
+.resume-container button:disabled {
+  background: #333;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.resume-resultat {
+  background-color: #1a1a2e;
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.7;
+  border: 1px solid #2a2a3e;
+  color: #ccc;
+  white-space: pre-wrap;
+}
+
+.resume-resultat h3 {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}

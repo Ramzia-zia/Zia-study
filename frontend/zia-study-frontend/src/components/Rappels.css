@@ -1,0 +1,128 @@
+.rappels-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rappels-container h2 {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.rappels-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.rappels-form input,
+.rappels-form select {
+  padding: 10px 14px;
+  border: 1px solid #2a2a3e;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  transition: border 0.3s;
+  width: 100%;
+}
+
+.rappels-form input:focus,
+.rappels-form select:focus {
+  border-color: #00d4ff;
+}
+
+.rappels-form select option {
+  background-color: #1a1a2e;
+}
+
+.rappels-form button {
+  grid-column: 1 / -1;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: opacity 0.3s;
+  width: 100%;
+}
+
+.rappels-form button:hover {
+  opacity: 0.85;
+}
+
+.rappels-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rappel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #1a1a2e;
+  border-radius: 12px;
+  border: 1px solid #2a2a3e;
+}
+
+.rappel-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rappel-message {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+.rappel-heure {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.supprimer {
+  padding: 8px 16px;
+  background-color: #ff4d4d22;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d44;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap;
+}
+
+.supprimer:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.vide {
+  text-align: center;
+  color: #444;
+}
+
+@media (max-width: 600px) {
+  .rappels-form {
+    grid-template-columns: 1fr;
+  }
+
+  .rappel-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .supprimer {
+    width: 100%;
+    text-align: center;
+  }
+}
