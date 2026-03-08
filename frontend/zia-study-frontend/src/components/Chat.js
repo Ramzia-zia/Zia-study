@@ -16,10 +16,14 @@ function Chat() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://192.168.1.87:5000/api/chat", {
-        message: input,
-      });
-      const reponse = { role: "bot", text: res.data.response };
+      const res = await axios.post("http://10.0.0.80:5000/chat", {
+  message: input,
+  historique: messages.filter(m => m.role === "user" || m.role === "assistant").map(m => ({
+    role: m.role === "bot" ? "assistant" : "user",
+    content: m.text
+  }))
+});
+const reponse = { role: "bot", text: res.data.reply };
       setMessages((prev) => [...prev, reponse]);
     } catch (error) {
       setMessages((prev) => [...prev, { role: "bot", text: "Erreur de connexion au serveur." }]);

@@ -1,34 +1,37 @@
-/* eslint-disable no-restricted-globals */
-const CACHE_NAME = 'zia-study-v1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json'
-];
-
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
-  );
+  // eslint-disable-next-line no-restricted-globals
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) return response;
-      return fetch(event.request);
-    })
-  );
-});
-
+// eslint-disable-next-line no-restricted-globals
 self.addEventListener('activate', (event) => {
+  // eslint-disable-next-line no-undef
+  event.waitUntil(clients.claim());
+});
+
+// eslint-disable-next-line no-restricted-globals
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  const title = data.title || 'Zia Study';
+  const options = {
+    body: data.body || 'Vous avez un rappel',
+    icon: '/logo192.png',
+    badge: '/logo192.png',
+    vibrate: [200, 100, 200],
+  };
+
   event.waitUntil(
-    caches.keys().then((cacheNames) =>
-      Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
-      )
-    )
+    // eslint-disable-next-line no-restricted-globals
+    self.registration.showNotification(title, options)
+  );
+});
+
+// eslint-disable-next-line no-restricted-globals
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    // eslint-disable-next-line no-undef
+    clients.openWindow('/')
   );
 });

@@ -15,11 +15,13 @@ function Resume() {
     try {
       if (fichier) {
         const formData = new FormData();
-        formData.append("file", fichier);
-        const res = await axios.post("http://192.168.1.87:5000/api/resume", formData);
+formData.append("fichier", fichier);
+const res = await axios.post("http://10.0.0.80:5000/resume", formData, {
+  headers: { "Content-Type": "multipart/form-data" }
+});
         setResume(res.data.resume);
       } else if (texte.trim()) {
-        const res = await axios.post("http://192.168.1.87:5000/api/resume", { texte });
+       const res = await axios.post("http://10.0.0.80:5000/resume", { texte });
         setResume(res.data.resume);
       } else {
         setResume("Veuillez entrer un texte ou importer un fichier.");
