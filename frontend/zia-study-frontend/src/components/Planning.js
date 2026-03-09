@@ -17,7 +17,7 @@ function Planning() {
 
   const chargerPlanning = async () => {
     try {
-      const res = await axios.get("http://10.0.0.80:5000/planning");
+      const res = await axios.get("https://zia-study-production.up.railway.app/planning");
       setPlanning(res.data);
     } catch (error) {
       toast.error("Erreur lors du chargement du planning.");
@@ -30,7 +30,7 @@ function Planning() {
       return;
     }
     try {
-      await axios.post("http://10.0.0.80:5000/planning", { cours, jour, heure });
+      await axios.post("https://zia-study-production.up.railway.app/planning", { cours, jour, heure });
       toast.success("Cours ajouté avec succès.");
       setCours("");
       setJour("");
@@ -43,7 +43,7 @@ function Planning() {
 
   const supprimerCours = async (id) => {
     try {
-      await axios.delete(`http://10.0.0.80:5000/planning/${id}`);
+      await axios.delete(`https://zia-study-production.up.railway.app/planning/${id}`);
       toast.success("Cours supprimé.");
       chargerPlanning();
     } catch (error) {

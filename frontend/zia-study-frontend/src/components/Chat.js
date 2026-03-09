@@ -16,7 +16,7 @@ function Chat() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://10.0.0.80:5000/chat", {
+      const res = await axios.post("https://zia-study-production.up.railway.app/chat", {
   message: input,
   historique: messages.filter(m => m.role === "user" || m.role === "assistant").map(m => ({
     role: m.role === "bot" ? "assistant" : "user",

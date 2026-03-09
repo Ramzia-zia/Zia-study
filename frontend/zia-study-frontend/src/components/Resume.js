@@ -16,12 +16,12 @@ function Resume() {
       if (fichier) {
         const formData = new FormData();
 formData.append("fichier", fichier);
-const res = await axios.post("http://10.0.0.80:5000/resume", formData, {
+const res = await axios.post("https://zia-study-production.up.railway.app/resume", formData, {
   headers: { "Content-Type": "multipart/form-data" }
 });
         setResume(res.data.resume);
       } else if (texte.trim()) {
-       const res = await axios.post("http://10.0.0.80:5000/resume", { texte });
+       const res = await axios.post("https://zia-study-production.up.railway.app/resume", { texte });
         setResume(res.data.resume);
       } else {
         setResume("Veuillez entrer un texte ou importer un fichier.");

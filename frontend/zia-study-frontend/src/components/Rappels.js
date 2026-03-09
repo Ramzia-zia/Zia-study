@@ -3,7 +3,7 @@ import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import './Rappels.css';
 
-const API = 'http://10.0.0.80:5000';
+const API = 'https://zia-study-production.up.railway.app';
 
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
