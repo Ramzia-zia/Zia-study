@@ -31,6 +31,9 @@ VAPID_PUBLIC_KEY = os.getenv("VAPID_PUBLIC_KEY")
 VAPID_PRIVATE_KEY = os.getenv("VAPID_PRIVATE_KEY")
 VAPID_CLAIMS_EMAIL = os.getenv("VAPID_CLAIMS_EMAIL")
 
+# Stocker les abonnements push en mémoire
+subscriptions = []
+
 def get_db():
     return pymysql.connect(
         host=MYSQL_HOST,
@@ -40,14 +43,15 @@ def get_db():
         database=MYSQL_DB,
         cursorclass=pymysql.cursors.DictCursor
     )
-
 # ========== CHAT ==========
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json
     message = data.get('message', '')
     historique = data.get('historique', [])
+
     messages = historique + [{"role": "user", "content": message}]
+
     headers = {
         "Authorization": f"Bearer {HF_API_KEY}",
         "Content-Type": "application/json"
@@ -57,11 +61,13 @@ def chat():
         "messages": messages,
         "max_tokens": 1000
     }
+
     response = requests.post(
         "https://router.huggingface.co/novita/v3/openai/chat/completions",
         headers=headers,
         json=payload
     )
+
     result = response.json()
     reply = result['choices'][0]['message']['content']
     return jsonify({"reply": reply})
@@ -75,6 +81,7 @@ def resume():
         nom = fichier.filename
         chemin = os.path.join(UPLOAD_FOLDER, nom)
         fichier.save(chemin)
+
         if nom.endswith('.pdf'):
             with pdfplumber.open(chemin) as pdf:
                 for page in pdf.pages:
@@ -85,6 +92,7 @@ def resume():
                 texte += para.text + "\n"
     else:
         texte = request.json.get('texte', '')
+
     headers = {
         "Authorization": f"Bearer {HF_API_KEY}",
         "Content-Type": "application/json"
@@ -94,11 +102,13 @@ def resume():
         "messages": [{"role": "user", "content": f"Fais un résumé clair et structuré en français de ce texte:\n\n{texte}"}],
         "max_tokens": 1000
     }
+
     response = requests.post(
         "https://router.huggingface.co/novita/v3/openai/chat/completions",
         headers=headers,
         json=payload
     )
+
     result = response.json()
     resume_text = result['choices'][0]['message']['content']
     return jsonify({"resume": resume_text})
@@ -167,15 +177,8 @@ def delete_rappel(id):
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
     subscription = request.json
-    db = get_db()
-    cursor = db.cursor()
-    sub_json = json.dumps(subscription)
-    cursor.execute("SELECT id FROM subscriptions WHERE subscription_data = %s", (sub_json,))
-    existing = cursor.fetchone()
-    if not existing:
-        cursor.execute("INSERT INTO subscriptions (subscription_data) VALUES (%s)", (sub_json,))
-        db.commit()
-    db.close()
+    if subscription not in subscriptions:
+        subscriptions.append(subscription)
     return jsonify({"message": "Abonné"})
 
 @app.route('/vapid-public-key', methods=['GET'])
@@ -194,23 +197,21 @@ def envoyer_notifications():
         cursor.execute("SELECT * FROM rappels WHERE heure = %s AND jour = %s",
                        (heure_actuelle, jour_actuel))
         rappels = cursor.fetchall()
-        cursor.execute("SELECT subscription_data FROM subscriptions")
-        subs = cursor.fetchall()
         db.close()
 
         for rappel in rappels:
-            for sub in subs:
+            for sub in subscriptions:
                 try:
-                    subscription = json.loads(sub['subscription_data'])
                     private_key_bytes = base64.b64decode(VAPID_PRIVATE_KEY)
                     private_key = load_pem_private_key(private_key_bytes, password=None)
                     private_key_der = private_key.private_bytes(
                         Encoding.DER, PrivateFormat.TraditionalOpenSSL, NoEncryption()
                     )
+
                     webpush(
-                        subscription_info=subscription,
+                        subscription_info=sub,
                         data=json.dumps({
-                            "title": "Rappel Zia Study",
+                            "title": "⏰ Rappel Zia Study",
                             "body": rappel['message']
                         }),
                         vapid_private_key=private_key_der,
@@ -221,6 +222,7 @@ def envoyer_notifications():
     except Exception as e:
         print(f"Erreur scheduler: {e}")
 
+# Lancer le scheduler
 scheduler = BackgroundScheduler()
 scheduler.add_job(envoyer_notifications, 'interval', minutes=1)
 scheduler.start()
